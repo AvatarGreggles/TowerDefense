@@ -208,6 +208,8 @@ MonoBehaviour:
     bar: {fileID: 2429891588895844146}
     maxVal: 0
     currentVal: 0
+  maxHealth: 35
+  currencyProvided: 55
 --- !u!61 &-7904155287027807383
 BoxCollider2D:
   m_ObjectHideFlags: 0
