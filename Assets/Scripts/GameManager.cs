@@ -11,7 +11,7 @@ public class GameManager : Singleton<GameManager>
     public TowerButton ClickedButton { get; set; }
 
     [SerializeField] private int currency;
-    [SerializeField] private int wave = 0;
+    [SerializeField] public int wave = 0;
     [SerializeField] private int lives = 0;
 
     private bool gameOver = false;
@@ -33,8 +33,6 @@ public class GameManager : Singleton<GameManager>
     private List<Monster> activeMonsters = new List<Monster>();
 
     public ObjectPool Pool { get; set; }
-
-    private int health = 15;
 
     public bool WaveActive
     {
@@ -140,39 +138,52 @@ public class GameManager : Singleton<GameManager>
     {
         LevelManager.Instance.GeneratePath();
 
-        for (int i = 0; i < wave; i++)
+        if (wave % 3 == 0)
         {
 
-            int monsterIndex = Random.Range(0, 4);
-            string type = string.Empty;
-
-            switch (monsterIndex)
-            {
-                case 0:
-                    type = "BlueMonster";
-                    break;
-                case 1:
-                    type = "RedMonster";
-                    break;
-                case 2:
-                    type = "GreenMonster";
-                    break;
-                case 3:
-                    type = "PurpleMonster";
-                    break;
-            }
+            string type = "BossMonster";
 
             Monster monster = Pool.GetObject(type).GetComponent<Monster>();
-            monster.Spawn(health);
+            monster.Spawn();
 
             activeMonsters.Add(monster);
 
-            if (wave % 3 == 0)
-            {
-                health += 5;
-            }
-
             yield return new WaitForSeconds(2.5f);
+
+        }
+        else
+        {
+            for (int i = 0; i < wave; i++)
+            {
+                int monsterIndex = Random.Range(0, 4);
+                string type = string.Empty;
+
+                switch (monsterIndex)
+                {
+                    case 0:
+                        type = "BlueMonster";
+                        break;
+                    case 1:
+                        type = "RedMonster";
+                        break;
+                    case 2:
+                        type = "GreenMonster";
+                        break;
+                    case 3:
+                        type = "PurpleMonster";
+                        break;
+                    case 4:
+                        type = "BossMonster";
+                        break;
+                }
+
+                Monster monster = Pool.GetObject(type).GetComponent<Monster>();
+                monster.Spawn();
+
+                activeMonsters.Add(monster);
+
+                yield return new WaitForSeconds(2.5f);
+            }
         }
     }
 

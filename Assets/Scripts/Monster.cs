@@ -17,7 +17,11 @@ public class Monster : MonoBehaviour
 
     [SerializeField] private Stat health;
 
+    [SerializeField] int maxHealth;
+
     private SpriteRenderer spriteRenderer;
+
+    [SerializeField] private int currencyProvided = 1;
 
     public bool Alive
     {
@@ -51,12 +55,20 @@ public class Monster : MonoBehaviour
         Move();
     }
 
-    public void Spawn(int health)
+    public void Spawn()
     {
         transform.position = LevelManager.Instance.RedPortal.transform.position;
         this.health.Bar.Reset();
 
-        this.health.MaxVal = health;
+
+        if (GameManager.Instance.wave % 3 == 0)
+        {
+            health.CurrentValue = Mathf.FloorToInt(health.CurrentValue * 1.15f);
+            currencyProvided = Mathf.FloorToInt(currencyProvided * 1.15f);
+            speed += 0.5f;
+        }
+
+        this.health.MaxVal = maxHealth;
         this.health.CurrentValue = this.health.MaxVal;
 
         LevelManager.Instance.RedPortal.Open();
@@ -194,7 +206,7 @@ public class Monster : MonoBehaviour
 
         if (health.CurrentValue <= 0)
         {
-            GameManager.Instance.Currency += 75;
+            GameManager.Instance.Currency += currencyProvided;
             animator.SetTrigger("Die");
             IsActive = false;
 
