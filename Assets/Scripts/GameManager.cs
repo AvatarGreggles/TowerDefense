@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -10,10 +11,38 @@ public class GameManager : Singleton<GameManager>
     public TowerButton ClickedButton { get; set; }
 
     [SerializeField] private int currency;
+    [SerializeField] private int wave = 0;
+    [SerializeField] private int lives = 0;
+
+    private bool gameOver = false;
+
+    [SerializeField] private TMP_Text waveText;
 
     [SerializeField] private TMP_Text currencyText;
+    [SerializeField] private TMP_Text livesText;
+
+    [SerializeField] private GameObject waveButton;
+    [SerializeField] private GameObject fireTowerButton;
+    [SerializeField] private GameObject iceTowerButton;
+    [SerializeField] private GameObject stormTowerButton;
+    [SerializeField] private GameObject poisonTowerButton;
+    [SerializeField] private GameObject gameOverMenu;
+
+    private Tower selectedTower;
+
+    private List<Monster> activeMonsters = new List<Monster>();
 
     public ObjectPool Pool { get; set; }
+
+    private int health = 15;
+
+    public bool WaveActive
+    {
+        get
+        {
+            return activeMonsters.Count > 0;
+        }
+    }
 
     public int Currency
     {
@@ -28,6 +57,27 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public int Lives
+    {
+        get
+        {
+            return lives;
+        }
+
+        set
+        {
+            this.lives = value;
+
+            if (lives <= 0)
+            {
+                this.lives = 0;
+                GameOver();
+            }
+
+            this.livesText.text = lives.ToString();
+        }
+    }
+
     private void Awake()
     {
         Pool = GetComponent<ObjectPool>();
@@ -38,6 +88,8 @@ public class GameManager : Singleton<GameManager>
     void Start()
     {
         this.currencyText.text = "$" + currency.ToString();
+        this.livesText.text = lives.ToString();
+        waveText.text = wave.ToString();
 
     }
 
@@ -50,6 +102,7 @@ public class GameManager : Singleton<GameManager>
 
     public void PickTower(TowerButton towerButton)
     {
+        // if (Currency >= towerButton.Price && !WaveActive)
         if (Currency >= towerButton.Price)
         {
             this.ClickedButton = towerButton;
@@ -76,33 +129,122 @@ public class GameManager : Singleton<GameManager>
 
     public void StartWave()
     {
+        wave++;
+        waveText.text = wave.ToString();
         StartCoroutine(SpawnWave());
+
+        DisableButtons();
     }
 
     private IEnumerator SpawnWave()
     {
         LevelManager.Instance.GeneratePath();
-        int monsterIndex = Random.Range(0, 4);
-        string type = string.Empty;
 
-        switch (monsterIndex)
+        for (int i = 0; i < wave; i++)
         {
-            case 0:
-                type = "BlueMonster";
-                break;
-            case 1:
-                type = "RedMonster";
-                break;
-            case 2:
-                type = "GreenMonster";
-                break;
-            case 3:
-                type = "PurpleMonster";
-                break;
+
+            int monsterIndex = Random.Range(0, 4);
+            string type = string.Empty;
+
+            switch (monsterIndex)
+            {
+                case 0:
+                    type = "BlueMonster";
+                    break;
+                case 1:
+                    type = "RedMonster";
+                    break;
+                case 2:
+                    type = "GreenMonster";
+                    break;
+                case 3:
+                    type = "PurpleMonster";
+                    break;
+            }
+
+            Monster monster = Pool.GetObject(type).GetComponent<Monster>();
+            monster.Spawn(health);
+
+            activeMonsters.Add(monster);
+
+            if (wave % 3 == 0)
+            {
+                health += 5;
+            }
+
+            yield return new WaitForSeconds(2.5f);
+        }
+    }
+
+    public void RemoveMonster(Monster monster)
+    {
+        activeMonsters.Remove(monster);
+
+        if (!WaveActive && !gameOver)
+        {
+            EnableButtons();
         }
 
-        Monster monster = Pool.GetObject(type).GetComponent<Monster>();
-        monster.Spawn();
-        yield return new WaitForSeconds(2.5f);
+    }
+
+    public void DisableButtons()
+    {
+        waveButton.SetActive(false);
+        // fireTowerButton.SetActive(false);
+        // iceTowerButton.SetActive(false);
+        // stormTowerButton.SetActive(false);
+        // poisonTowerButton.SetActive(false);
+    }
+
+    public void EnableButtons()
+    {
+        waveButton.SetActive(true);
+        // fireTowerButton.SetActive(true);
+        // iceTowerButton.SetActive(true);
+        // stormTowerButton.SetActive(true);
+        // poisonTowerButton.SetActive(true);
+    }
+
+    public void GameOver()
+    {
+        if (!gameOver)
+        {
+            gameOver = true;
+            gameOverMenu.SetActive(true);
+
+        }
+    }
+
+    public void Restart()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void SelectTower(Tower tower)
+    {
+
+        if (selectedTower != null)
+        {
+            selectedTower.Select();
+        }
+
+        selectedTower = tower;
+        selectedTower.Select();
+    }
+
+    public void DeselectTower()
+    {
+        if (selectedTower != null)
+        {
+            selectedTower.Select();
+        }
+
+        selectedTower = null;
     }
 }

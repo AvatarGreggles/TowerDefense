@@ -5,10 +5,13 @@ using UnityEngine;
 public class Hover : Singleton<Hover>
 {
     private SpriteRenderer spriteRenderer;
+
+    private SpriteRenderer rangeRenderer;
     // Start is called before the first frame update
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
+        rangeRenderer = transform.GetChild(0).GetComponent<SpriteRenderer>();
 
     }
 
@@ -33,12 +36,14 @@ public class Hover : Singleton<Hover>
     {
         spriteRenderer.sprite = sprite;
         spriteRenderer.enabled = true;
+        rangeRenderer.enabled = true;
     }
 
     public void Deactivate()
     {
         spriteRenderer.enabled = false;
         spriteRenderer.sprite = null;
+        rangeRenderer.enabled = false;
         GameManager.Instance.ClickedButton = null;
     }
 }

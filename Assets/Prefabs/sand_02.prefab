@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: -7723906422786832269}
   m_Layer: 0
   m_Name: sand_02
-  m_TagString: Untagged
+  m_TagString: Tile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1675546779
   m_SortingLayer: 1
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: c2f355d6f818b411c98ae8d77e55cf33, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   walkable: 1
-  isEmpty: 1
+  isEmpty: 0
 --- !u!61 &-7723906422786832269
 BoxCollider2D:
   m_ObjectHideFlags: 0

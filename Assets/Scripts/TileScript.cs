@@ -40,6 +40,8 @@ public class TileScript : MonoBehaviour
         }
     }
 
+    private Tower myTower;
+
     public bool Debugging { get; set; }
 
     public Vector2 WorldPosition
@@ -93,6 +95,20 @@ public class TileScript : MonoBehaviour
                 PlaceTower();
             }
         }
+        else if (!EventSystem.current.IsPointerOverGameObject() && GameManager.Instance.ClickedButton == null && Input.GetMouseButtonDown(0))
+        {
+            if (myTower != null)
+            {
+                GameManager.Instance.SelectTower(myTower);
+            }
+            else
+            {
+                GameManager.Instance.DeselectTower();
+            }
+
+        }
+
+
     }
 
     private void OnMouseExit()
@@ -109,6 +125,9 @@ public class TileScript : MonoBehaviour
         tower.GetComponent<SpriteRenderer>().sortingOrder = GridPosition.y;
 
         tower.transform.SetParent(transform);
+
+        this.myTower = tower.transform.GetChild(0).GetComponent<Tower>();
+
         IsEmpty = false;
         ColorTile(Color.white);
         GameManager.Instance.BuyTower();

@@ -16,8 +16,28 @@ public class LevelManager : Singleton<LevelManager>
     private Point blueSpawn;
     private Point redSpawn;
 
-    [SerializeField] private GameObject bluePortalPrefab;
-    [SerializeField] private GameObject redPortalPrefab;
+    public Point BlueSpawn
+    {
+        get
+        {
+            return blueSpawn;
+
+        }
+    }
+
+    public Point RedSpawn
+    {
+        get
+        {
+            return redSpawn;
+
+        }
+    }
+
+    [SerializeField]
+    private GameObject bluePortalPrefab;
+    [SerializeField]
+    private GameObject redPortalPrefab;
 
     public Portal BluePortal { get; set; }
     public Portal RedPortal { get; set; }
