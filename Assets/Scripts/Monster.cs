@@ -9,6 +9,8 @@ public class Monster : MonoBehaviour
 
     private Stack<Node> path;
 
+    [SerializeField] private Element elementType;
+
     public Point GridPosition { get; set; }
 
     public Vector3 destination;
@@ -17,9 +19,13 @@ public class Monster : MonoBehaviour
 
     [SerializeField] private Stat health;
 
+    private List<Debuff> debuffs = new List<Debuff>();
+
     [SerializeField] int maxHealth;
 
     private SpriteRenderer spriteRenderer;
+
+    private int invulnerability = 2;
 
     [SerializeField] private int currencyProvided = 1;
 
@@ -32,7 +38,18 @@ public class Monster : MonoBehaviour
 
     }
 
+    public Element ElementType
+    {
+        get
+        {
+            return elementType;
+        }
+    }
+
     private Animator animator;
+
+    private List<Debuff> debuffsToRemove = new List<Debuff>();
+    private List<Debuff> newDebuffs = new List<Debuff>();
 
     private void Awake()
     {
@@ -52,6 +69,7 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        HandleDebuffs();
         Move();
     }
 
@@ -63,9 +81,9 @@ public class Monster : MonoBehaviour
 
         if (GameManager.Instance.wave % 3 == 0)
         {
-            health.CurrentValue = Mathf.FloorToInt(health.CurrentValue * 1.15f);
-            currencyProvided = Mathf.FloorToInt(currencyProvided * 1.15f);
-            speed += 0.5f;
+            health.CurrentValue = Mathf.FloorToInt(health.CurrentValue * (GameManager.Instance.wave * 1.5f));
+            currencyProvided = Mathf.FloorToInt(currencyProvided);
+            speed += 1f;
         }
 
         this.health.MaxVal = maxHealth;
@@ -197,10 +215,15 @@ public class Monster : MonoBehaviour
 
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage, Element dmgSource)
     {
         if (IsActive)
         {
+            if (dmgSource == elementType)
+            {
+                damage = damage / invulnerability;
+                invulnerability++;
+            }
             health.CurrentValue -= damage;
         }
 
@@ -211,6 +234,43 @@ public class Monster : MonoBehaviour
             IsActive = false;
 
             GetComponent<SpriteRenderer>().sortingOrder--;
+        }
+    }
+
+    public void AddDebuff(Debuff debuff)
+    {
+        if (!debuffs.Exists(x => x.GetType() == debuff.GetType()))
+        {
+            newDebuffs.Add(debuff);
+        }
+    }
+
+    public void RemoveDebuff(Debuff debuff)
+    {
+        debuffsToRemove.Add(debuff);
+
+        // debuffs.Remove(debuff);
+
+    }
+
+    private void HandleDebuffs()
+    {
+        if (newDebuffs.Count > 0)
+        {
+            debuffs.AddRange(newDebuffs);
+            newDebuffs.Clear();
+        }
+
+        foreach (Debuff debuff in debuffsToRemove)
+        {
+            debuffs.Remove(debuff);
+        }
+
+        debuffsToRemove.Clear();
+
+        foreach (Debuff debuff in debuffs)
+        {
+            debuff.Update();
         }
     }
 }

@@ -20,6 +20,7 @@ public class GameManager : Singleton<GameManager>
 
     [SerializeField] private TMP_Text currencyText;
     [SerializeField] private TMP_Text livesText;
+    [SerializeField] private TMP_Text sellText;
 
     [SerializeField] private GameObject waveButton;
     [SerializeField] private GameObject fireTowerButton;
@@ -27,6 +28,7 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] private GameObject stormTowerButton;
     [SerializeField] private GameObject poisonTowerButton;
     [SerializeField] private GameObject gameOverMenu;
+    [SerializeField] private GameObject upgradePanel;
 
     private Tower selectedTower;
 
@@ -138,7 +140,7 @@ public class GameManager : Singleton<GameManager>
     {
         LevelManager.Instance.GeneratePath();
 
-        if (wave % 3 == 0)
+        if (wave % 10 == 0)
         {
 
             string type = "BossMonster";
@@ -247,6 +249,10 @@ public class GameManager : Singleton<GameManager>
 
         selectedTower = tower;
         selectedTower.Select();
+
+        sellText.text = "+ $" + (selectedTower.Price / 2).ToString();
+
+        upgradePanel.SetActive(true);
     }
 
     public void DeselectTower()
@@ -256,6 +262,23 @@ public class GameManager : Singleton<GameManager>
             selectedTower.Select();
         }
 
+        upgradePanel.SetActive(false);
+
         selectedTower = null;
     }
+
+    public void SellTower()
+    {
+        if (selectedTower != null)
+        {
+            Currency += selectedTower.Price / 2;
+            selectedTower.GetComponentInParent<TileScript>().IsEmpty = true;
+
+            Destroy(selectedTower.transform.parent.gameObject);
+
+            DeselectTower();
+        }
+    }
+
+
 }

@@ -117,7 +117,7 @@ GameObject:
   - component: {fileID: 3742279181063949763}
   - component: {fileID: 6687553149217153917}
   - component: {fileID: 4288083608320274086}
-  - component: {fileID: 3631189534261814965}
+  - component: {fileID: 3650969934455763815}
   m_Layer: 2
   m_Name: Range
   m_TagString: Untagged
@@ -208,7 +208,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
---- !u!114 &3631189534261814965
+--- !u!114 &3650969934455763815
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -217,10 +217,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 7897232251537806609}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e881e6c90b840f3b0c2b37d83d44cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 9f6a9d4bd354d43a78cc991f4a17eadb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: StormProjectile
-  projectileSpeed: 10
+  projectileSpeed: 20
   damage: 1
+  debuffDuration: 1
+  proc: 100
   attackCooldown: 0.15

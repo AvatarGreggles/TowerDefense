@@ -2,12 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : MonoBehaviour
+
+public enum Element { Fire, Storm, Poison, Ice }
+public abstract class Tower : MonoBehaviour
 {
     [SerializeField] private string projectileType;
     [SerializeField] private float projectileSpeed;
 
     [SerializeField] private int damage;
+
+    [SerializeField] private float debuffDuration;
+
+    [SerializeField] private float proc;
+
+    public float Proc { get => proc; set => proc = value; }
+
+    public float DebuffDuration
+    {
+        get
+        {
+            return debuffDuration;
+        }
+
+        set
+        {
+            this.debuffDuration = value;
+        }
+    }
+
+    public int Price { get; set; }
+
+    public Element ElementType { get; protected set; }
 
     public int Damage
     {
@@ -126,4 +151,6 @@ public class Tower : MonoBehaviour
             target = null;
         }
     }
+
+    public abstract Debuff GetDebuff();
 }

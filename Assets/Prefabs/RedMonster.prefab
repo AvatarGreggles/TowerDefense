@@ -108,7 +108,7 @@ MonoBehaviour:
     maxVal: 0
     currentVal: 0
   maxHealth: 55
-  currencyProvided: 85
+  currencyProvided: 50
 --- !u!95 &8645688395846401516
 Animator:
   serializedVersion: 4

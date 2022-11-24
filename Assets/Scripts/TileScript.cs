@@ -130,6 +130,8 @@ public class TileScript : MonoBehaviour
 
         IsEmpty = false;
         ColorTile(Color.white);
+
+        myTower.Price = GameManager.Instance.ClickedButton.Price;
         GameManager.Instance.BuyTower();
 
         Walkable = false;

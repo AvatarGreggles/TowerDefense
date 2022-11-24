@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7499445451011681154}
   - component: {fileID: 389029154714115916}
   - component: {fileID: 5126336317463692637}
-  - component: {fileID: 6003170111676114856}
+  - component: {fileID: 2325588951615728216}
   m_Layer: 2
   m_Name: Range
   m_TagString: Untagged
@@ -102,7 +102,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
---- !u!114 &6003170111676114856
+--- !u!114 &2325588951615728216
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,13 +111,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 341367615083395148}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e881e6c90b840f3b0c2b37d83d44cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 998a7a3e21adc43f6a0d56f2c811eaed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: PoisonProjectile
-  projectileSpeed: 3
-  damage: 6
-  attackCooldown: 1.5
+  projectileSpeed: 4
+  damage: 7
+  debuffDuration: 5
+  proc: 100
+  attackCooldown: 0.5
 --- !u!1 &5440599002430241630
 GameObject:
   m_ObjectHideFlags: 0

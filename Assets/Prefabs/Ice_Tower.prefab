@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7960811648472306359}
   - component: {fileID: 5682064491421633801}
   - component: {fileID: 5268525694056647842}
-  - component: {fileID: 2098900581425514102}
+  - component: {fileID: 9012239004976502943}
   m_Layer: 2
   m_Name: Range
   m_TagString: Untagged
@@ -102,7 +102,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
---- !u!114 &2098900581425514102
+--- !u!114 &9012239004976502943
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,13 +111,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 2760363505160260015}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e881e6c90b840f3b0c2b37d83d44cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 043ff084658414fbc8fb8eb819bb6211, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: IceProjectile
-  projectileSpeed: 7
-  damage: 3
-  attackCooldown: 1
+  projectileSpeed: 12
+  damage: 5
+  debuffDuration: 5
+  proc: 100
+  attackCooldown: 0.8
 --- !u!1 &8150270870159406161
 GameObject:
   m_ObjectHideFlags: 0

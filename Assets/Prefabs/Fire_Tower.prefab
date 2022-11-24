@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 686108546}
   - component: {fileID: 686108545}
   - component: {fileID: 8524246455687390175}
-  - component: {fileID: 3086043515153681560}
+  - component: {fileID: 3442723953270267788}
   m_Layer: 2
   m_Name: Range
   m_TagString: Untagged
@@ -102,7 +102,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.49999997
---- !u!114 &3086043515153681560
+--- !u!114 &3442723953270267788
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -111,13 +111,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 686108544}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73e881e6c90b840f3b0c2b37d83d44cd, type: 3}
+  m_Script: {fileID: 11500000, guid: 27075fa90949a495ca856d6b74a7ab81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectileType: FireProjectile
-  projectileSpeed: 5
-  damage: 10
-  attackCooldown: 2.5
+  projectileSpeed: 8
+  damage: 8
+  debuffDuration: 10
+  proc: 100
+  attackCooldown: 5
+  tickTime: 1
+  tickDamage: 2
 --- !u!1 &4806555359850904865
 GameObject:
   m_ObjectHideFlags: 0
